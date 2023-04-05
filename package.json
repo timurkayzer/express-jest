@@ -2,9 +2,10 @@
   "name": "express-jest",
   "version": "1.0.0",
   "description": "",
+  "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest ./dist",
     "build": "tsc",
     "start": "nodemon dist/index.js"
   },
