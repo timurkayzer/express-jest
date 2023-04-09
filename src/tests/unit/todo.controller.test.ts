@@ -21,6 +21,6 @@ describe("TodoController:createTodo", () => {
         req.body = newTodo;
 
         todoController.createTodo(req, res);
-        expect(TodoModel.create).toBeCalled();
+        expect(TodoModel.create).toBeCalledWith(newTodo);
     });
 });
