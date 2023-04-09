@@ -5,5 +5,6 @@ export class TodoController {
     createTodo(req: Request, res: Response) {
         const newTodo = req.body;
         TodoModel.create(newTodo);
+        res.status(201).json(newTodo);
     }
 }
