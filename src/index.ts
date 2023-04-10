@@ -1,7 +1,7 @@
 import express from 'express';
 
 
-const app = express();
+export const app = express();
 
 app.get("/", (req, res) => {
     res.json("Hello world");
