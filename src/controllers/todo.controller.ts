@@ -9,9 +9,9 @@ export class TodoController {
         this.router.post('/todos', this.createTodo);
     }
 
-    createTodo(req: Request, res: Response) {
+    async createTodo(req: Request, res: Response) {
         const newTodo = req.body;
-        TodoModel.create(newTodo);
+        await TodoModel.create(newTodo);
         res.status(201).json(newTodo);
     }
 }
