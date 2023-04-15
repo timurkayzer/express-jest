@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response, Router } from "express";
+import { Request, Response, Router } from "express";
 import { TodoModel } from "../model/todo.model";
 
 export class TodoController {
@@ -6,13 +6,13 @@ export class TodoController {
     public router: Router;
     constructor() {
         this.router = Router();
-        this.router.post('/todos', this.createTodo);
+        this.router.post('/todos', this.createTodo.bind(this));
     }
 
     async createTodo(req: Request, res: Response) {
         const newTodo = req.body;
-        await TodoModel.create(newTodo);
-        res.status(201).json(newTodo);
+        const createdModel = await TodoModel.create(newTodo);
+        res.status(201).json(newTodo).end();
     }
 }
 

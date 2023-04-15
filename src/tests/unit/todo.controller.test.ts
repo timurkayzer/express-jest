@@ -26,19 +26,19 @@ describe("TodoController:createTodo", () => {
         expect(typeof todoController.createTodo).toBe("function");
     });
 
-    it("should call model creation", () => {
-        todoController.createTodo(req, res);
+    it("should call model creation", async () => {
+        await todoController.createTodo(req, res);
         expect(TodoModel.create).toBeCalledWith(newTodo);
     });
 
-    it("should return code 201", () => {
-        todoController.createTodo(req, res);
+    it("should return code 201", async () => {
+        await todoController.createTodo(req, res);
         expect(res.statusCode).toBe(201);
         expect(res?._isEndCalled()).toBeTruthy();
     });
 
-    it("should return JSON body", () => {
-        todoController.createTodo(req, res);
+    it("should return JSON body", async () => {
+        await todoController.createTodo(req, res);
         expect(res._getJSONData()).toMatchObject(newTodo);
     });
 });
