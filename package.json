@@ -8,7 +8,7 @@
     "test": "jest ./dist --forceExit",
     "test:watch": "jest ./dist --watchAll --forceExit",
     "build": "tsc",
-    "start": "nodemon dist/index.js"
+    "start": "nodemon dist/server.js"
   },
   "keywords": [],
   "author": "",
