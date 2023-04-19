@@ -11,6 +11,13 @@ export class TodoController {
 
     async createTodo(req: Request, res: Response) {
         const newTodo = req.body;
+        try {
+
+        }
+        catch (e) {
+            console.error("Error while creating Todo,", e?.toString());
+            res.status(500).json({ error: e?.toString() });
+        }
         const createdModel = await TodoModel.create(newTodo);
         res.status(201).json(newTodo).end();
     }

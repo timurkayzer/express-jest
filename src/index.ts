@@ -2,11 +2,11 @@ import express, { json } from 'express';
 import { todoController } from './controllers/todo.controller';
 import { connect } from './mongo/mongo.connect';
 
-export const app = express();
+connect();
 
+export const app = express();
 app.use(json());
 app.use(todoController.router);
-connect();
 
 app.get("/", (req, res) => {
     res.json("Hello world");
