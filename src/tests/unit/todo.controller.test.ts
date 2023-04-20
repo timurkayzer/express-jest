@@ -6,7 +6,7 @@ import newTodoIncorrect from '../mock-data/new-todo-incorrect';
 import { NextFunction, Request, Response } from "express";
 
 
-const todoController = new TodoController();
+const todoController: any = new TodoController();
 
 let req: MockRequest<any>, res: MockResponse<any>, next: NextFunction;
 
@@ -47,5 +47,17 @@ describe("TodoController:createTodo", () => {
         req.body = newTodoIncorrect;
         await todoController.createTodo(req, res, next);
         expect(next).toBeCalledWith("Failed to write to database:Error: Validation error");
+    });
+});
+
+describe("TodoController:getTodos", () => {
+    it("should have method", () => {
+        expect(typeof todoController.getTodos).toBe('function');
+    });
+
+    it("find must be called", async () => {
+        TodoModel.find = jest.fn();
+        await todoController.getTodos(req, res, next);
+        expect(TodoModel.find).toBeCalled();
     });
 });

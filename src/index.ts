@@ -6,7 +6,7 @@ connect();
 
 export const app = express();
 app.use(json());
-app.use(todoController.router);
+app.use('/todos', todoController.router);
 
 app.get("/", (req, res) => {
     res.json("Hello world");

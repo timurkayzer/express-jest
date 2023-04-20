@@ -5,8 +5,8 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "test": "jest ./dist --forceExit",
-    "test:watch": "jest ./dist --watchAll --forceExit",
+    "test": "jest ./dist --forceExit --collectCoverage=false",
+    "test:watch": "jest ./dist --watchAll --forceExit --collectCoverage=false",
     "build": "tsc",
     "start": "nodemon dist/server.js"
   },

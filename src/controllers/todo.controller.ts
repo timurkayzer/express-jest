@@ -5,8 +5,17 @@ export class TodoController {
 
     public router: Router;
     constructor() {
-        this.router = Router();
-        this.router.post('/todos', this.createTodo.bind(this));
+        this.router = Router({
+            caseSensitive: false
+        });
+        this.router.post('', this.createTodo.bind(this));
+        this.router.get('');
+    }
+
+    async getTodos(req: Request, res: Response, next: NextFunction) {
+        const models = await TodoModel.find({});
+
+        res.status(200).json(models);
     }
 
     async createTodo(req: Request, res: Response, next: NextFunction) {
