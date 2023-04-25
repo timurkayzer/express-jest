@@ -2,6 +2,7 @@ import { TodoController } from "../../controllers/todo.controller";
 import { TodoModel } from "../../model/todo.model";
 import HttpMocks, { MockRequest, MockResponse } from 'node-mocks-http';
 import newTodo from '../mock-data/new-todo';
+import allTodos from '../mock-data/todos';
 import newTodoIncorrect from '../mock-data/new-todo-incorrect';
 import { NextFunction, Request, Response } from "express";
 
@@ -59,5 +60,14 @@ describe("TodoController:getTodos", () => {
         TodoModel.find = jest.fn();
         await todoController.getTodos(req, res, next);
         expect(TodoModel.find).toBeCalled();
+    });
+
+    it('should return status 200 and todos', async () => {
+        TodoModel.find = jest.fn().mockReturnValueOnce(allTodos);
+        await todoController.getTodos(req, res, next);
+
+        expect(res.statusCode).toBe(200);
+        expect(res._isEndCalled()).toBeTruthy();
+        expect(res._getJSONData()).toStrictEqual(allTodos);
     });
 });
