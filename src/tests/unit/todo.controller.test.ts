@@ -70,4 +70,12 @@ describe("TodoController:getTodos", () => {
         expect(res._isEndCalled()).toBeTruthy();
         expect(res._getJSONData()).toStrictEqual(allTodos);
     });
+
+    it('should handle errors', async () => {
+        TodoModel.find = () => { throw new Error("Failed database query"); };
+        await todoController.getTodos(req, res, next);
+
+        expect(next).toBeCalledWith("Failed retrieve data:Error: Failed database query");
+
+    });
 });

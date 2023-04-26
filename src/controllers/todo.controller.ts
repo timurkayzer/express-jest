@@ -9,13 +9,19 @@ export class TodoController {
             caseSensitive: false
         });
         this.router.post('', this.createTodo.bind(this));
-        this.router.get('');
+        this.router.get('', this.getTodos.bind(this));
     }
 
     async getTodos(req: Request, res: Response, next: NextFunction) {
-        const models = await TodoModel.find({});
+        try {
+            const models = await TodoModel.find({});
+            res.status(200).json(models);
+        }
+        catch (e) {
+            console.error("Error while getting todos,", e?.toString);
+            next("Failed retrieve data:" + e?.toString());
+        }
 
-        res.status(200).json(models);
     }
 
     async createTodo(req: Request, res: Response, next: NextFunction) {

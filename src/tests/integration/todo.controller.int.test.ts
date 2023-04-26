@@ -24,4 +24,12 @@ describe(endpoint, () => {
         expect(response.statusCode).toBe(500);
         expect(response.body.error).toMatch(/Validation error/g);
     });
+
+    it('GET ' + endpoint, async () => {
+        const response = await request(app)
+            .get(endpoint);
+
+        expect(response.statusCode).toBe(200);
+        expect(response.body instanceof Array).toBe(true);
+    });
 });
