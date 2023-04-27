@@ -79,3 +79,9 @@ describe("TodoController:getTodos", () => {
 
     });
 });
+
+describe("TodoController: getTodoById", () => {
+    it("should exist", () => {
+        expect(typeof todoController.getTodoById).toBe("function");
+    });
+});
