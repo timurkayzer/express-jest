@@ -80,8 +80,20 @@ describe("TodoController:getTodos", () => {
     });
 });
 
-describe("TodoController: getTodoById", () => {
+describe("TodoController: findById", () => {
+
+    beforeEach(() => {
+        TodoModel.findById = jest.fn();
+    });
+
     it("should exist", () => {
-        expect(typeof todoController.getTodoById).toBe("function");
+        expect(typeof todoController.findById).toBe("function");
+    });
+
+    it("should call method", async () => {
+        const testQueryId = "testId";
+        req.query.id = testQueryId;
+        await todoController.findById(req, res, next);
+        expect(TodoModel.findById).toBeCalledWith(testQueryId);
     });
 });

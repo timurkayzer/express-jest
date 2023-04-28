@@ -38,6 +38,23 @@ export class TodoController {
             next("Failed to write to database:" + e?.toString());
         }
     }
+
+    async findById(req: Request, res: Response, next: NextFunction) {
+        const id = req.query?.id;
+        try {
+            const foundTodo = await TodoModel.findById(id);
+            if (foundTodo) {
+                res.status(200).json(foundTodo);
+            }
+            else {
+                res.status(404).send();
+            }
+        }
+        catch (e) {
+            console.error("Error while getting by id,", e?.toString());
+            next(e?.toString());
+        }
+    }
 }
 
 export const todoController = new TodoController();
