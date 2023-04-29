@@ -4,7 +4,7 @@ import HttpMocks, { MockRequest, MockResponse } from 'node-mocks-http';
 import newTodo from '../mock-data/new-todo';
 import allTodos from '../mock-data/todos';
 import newTodoIncorrect from '../mock-data/new-todo-incorrect';
-import { NextFunction, Request, Response } from "express";
+import { NextFunction } from "express";
 
 
 const todoController: any = new TodoController();
@@ -95,5 +95,30 @@ describe("TodoController: findById", () => {
         req.query.id = testQueryId;
         await todoController.findById(req, res, next);
         expect(TodoModel.findById).toBeCalledWith(testQueryId);
+    });
+
+    it("should return json body and status", async () => {
+        req.query.id = "111aaaa2322";
+        const createdModel = {
+            _id: "111aaaa2322",
+            ...newTodo
+        };
+        TodoModel.findById = jest.fn().mockReturnValueOnce(createdModel);
+
+        await todoController.findById(req, res, next);
+
+        expect(res.statusCode).toBe(200);
+        expect(res._getJSONData()).toStrictEqual(createdModel);
+    });
+
+    it("should handle errors", async () => {
+        TodoModel.findById = jest.fn().mockReturnValueOnce(new Promise((resolve, reject) => {
+            reject("Object not found");
+        }));
+        req.query.id = "111aaaa2322";
+        await todoController.findById(req, res, next);
+
+        expect(next).toBeCalledWith("Object not found");
+
     });
 });
