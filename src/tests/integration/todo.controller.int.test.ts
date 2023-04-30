@@ -4,6 +4,7 @@ import newTodo from '../mock-data/new-todo';
 import newTodoIncorrect from '../mock-data/new-todo-incorrect';
 
 const endpoint = '/todos';
+let firstTodo: any;
 
 describe(endpoint, () => {
     it('POST ' + endpoint, async () => {
@@ -31,5 +32,17 @@ describe(endpoint, () => {
 
         expect(response.statusCode).toBe(200);
         expect(response.body instanceof Array).toBe(true);
+
+        firstTodo = response.body[0];
+    });
+
+    it(`GET ${endpoint}/:id`, async () => {
+        const response = await request(app)
+            .get(`${endpoint}/${firstTodo._id}`);
+
+        console.log(`${endpoint}/${firstTodo._id}`);
+
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toStrictEqual(firstTodo);
     });
 });

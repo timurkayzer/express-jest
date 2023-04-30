@@ -10,6 +10,7 @@ export class TodoController {
         });
         this.router.post('', this.createTodo.bind(this));
         this.router.get('', this.getTodos.bind(this));
+        this.router.get('/:id', this.findById.bind(this));
     }
 
     async getTodos(req: Request, res: Response, next: NextFunction) {
@@ -40,14 +41,14 @@ export class TodoController {
     }
 
     async findById(req: Request, res: Response, next: NextFunction) {
-        const id = req.query?.id;
+        const id = req.params?.id;
         try {
             const foundTodo = await TodoModel.findById(id);
             if (foundTodo) {
                 res.status(200).json(foundTodo);
             }
             else {
-                res.status(404).send();
+                res.status(404).json({ error: "Todo not found" });
             }
         }
         catch (e) {

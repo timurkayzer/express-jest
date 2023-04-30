@@ -92,13 +92,13 @@ describe("TodoController: findById", () => {
 
     it("should call method", async () => {
         const testQueryId = "testId";
-        req.query.id = testQueryId;
+        req.params.id = testQueryId;
         await todoController.findById(req, res, next);
         expect(TodoModel.findById).toBeCalledWith(testQueryId);
     });
 
     it("should return json body and status", async () => {
-        req.query.id = "111aaaa2322";
+        req.params.id = "111aaaa2322";
         const createdModel = {
             _id: "111aaaa2322",
             ...newTodo
@@ -115,10 +115,22 @@ describe("TodoController: findById", () => {
         TodoModel.findById = jest.fn().mockReturnValueOnce(new Promise((resolve, reject) => {
             reject("Object not found");
         }));
-        req.query.id = "111aaaa2322";
+        req.params.id = "111aaaa2322";
         await todoController.findById(req, res, next);
 
         expect(next).toBeCalledWith("Object not found");
+
+    });
+
+    it("should handle not found", async () => {
+        TodoModel.findById = jest.fn().mockReturnValueOnce(new Promise((resolve, reject) => {
+            resolve(null);
+        }));
+        req.params.id = "111aaaa2322";
+        await todoController.findById(req, res, next);
+
+        expect(res.statusCode).toBe(404);
+        expect(res._getJSONData()).toStrictEqual({ error: "Todo not found" });
 
     });
 });
