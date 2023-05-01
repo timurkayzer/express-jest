@@ -40,9 +40,17 @@ describe(endpoint, () => {
         const response = await request(app)
             .get(`${endpoint}/${firstTodo._id}`);
 
-        console.log(`${endpoint}/${firstTodo._id}`);
 
         expect(response.statusCode).toBe(200);
         expect(response.body).toStrictEqual(firstTodo);
+    });
+
+    it(`GET ${endpoint}/:id - does not exist`, async () => {
+        const response = await request(app)
+            .get(`${endpoint}/643af950e83566def02fc88d`);
+
+
+        expect(response.statusCode).toBe(404);
+        expect(response.body).toStrictEqual({ error: "Todo not found" });
     });
 });
